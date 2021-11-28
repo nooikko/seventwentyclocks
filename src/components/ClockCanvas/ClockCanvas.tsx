@@ -1,12 +1,21 @@
 import { Layer } from 'react-konva';
 import { StyledStage } from './styles';
-import { Clock } from '../';
+import { Clock, ClockContext } from '../';
+import { useContext } from 'react';
 
 export const ClockCanvas = () => {
+  const { times, dimension } = useContext(ClockContext);
   return (
     <StyledStage height={window.innerHeight} width={window.innerWidth}>
       <Layer>
-        <Clock hour={11} minute={36} />
+        {times.map(({ hour, minute, row, column }) =>
+        <Clock
+          key={`${hour}-${minute}`}
+          hour={hour}
+            minute={minute}
+            xPos={row * dimension}
+            yPos={column * dimension}
+        />)}
       </Layer>
     </StyledStage>
   );

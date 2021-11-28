@@ -7,4 +7,6 @@ export const getLength = (hand: keyof ClockContextI['times'][number], dimension:
     case 'minute':
       return (dimension / 2) - (dimension / 35);
   }
+
+  return 0;
 };

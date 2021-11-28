@@ -3,5 +3,8 @@ export interface ClockContextI {
   times: {
     hour: number;
     minute: number;
+    row: number;
+    column: number;
   }[];
+  rowCount: number;
 }

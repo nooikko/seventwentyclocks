@@ -1,20 +1,56 @@
 import { ClockContextI } from '../../../types';
 
-export function shuffleTimes(array: ClockContextI['times']) {
-  let currentIndex = array.length;
-  let randomIndex;
+const findClosestEmptyPosition = (array: ClockContextI['times'], current: ClockContextI['times'][number], rowCount: number, maxColumns: number) => {
+  let checkRow = 0;
+  let checkColumn = 0;
+  let matching = true;
 
-  // While there remain elements to shuffle...
-  while (currentIndex !== 0) {
-
-    // Pick a remaining element...
-    randomIndex = Math.floor(Math.random() * currentIndex);
-    currentIndex--;
-
-    // And swap it with the current element.
-    [array[currentIndex], array[randomIndex]] = [
-      array[randomIndex], array[currentIndex]];
+  while (matching) {
+    const matchingItem = array.find(({ row, column }) => row === checkRow && column === checkColumn); // eslint-disable-line
+    matching = matchingItem !== undefined;
+    if (matching) {
+      if (checkRow === rowCount) {
+        checkRow = 0;
+        checkColumn++;
+      } else {
+        checkRow++;
+      }
+    }
   }
 
-  return array;
+
+  return {
+    row: checkRow,
+    column: checkColumn,
+  };
+};
+
+
+export function shuffleTimes(array: ClockContextI['times'], rowCount: number) {
+  const output: ClockContextI['times'] = [];
+
+  for (let i = 0; i < array.length; i++) {
+    const current = array[i];
+    const columnCount = array[array.length - 1]['column'];
+    let randomColumn = Math.floor(Math.random() * columnCount);
+    let randomRow = Math.floor(Math.random() * rowCount);
+
+    const matchingPosition = output.find(({ row, column }) => row === randomRow && column === randomColumn);
+
+    if (matchingPosition !== undefined) {
+      const newPositions = findClosestEmptyPosition(output, current, rowCount, columnCount);
+
+      randomRow = newPositions.row;
+      randomColumn = newPositions.column;
+    }
+
+    output.push({
+      ...current,
+      row: randomRow,
+      column: randomColumn,
+    });
+
+  }
+
+  return output;
 }
