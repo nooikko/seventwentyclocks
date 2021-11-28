@@ -20,7 +20,7 @@ export const ClockHand: React.FC<ClockHandProps> = ({ hand, rotation }) => {
       offsetY={(length / 2) - (dimension / (hand === 'hour' ? 6 : 4)) + width - 1}
       width={width}
       height={length}
-      fill='red'
+      fill='black'
       rotation={rotation}
     />
   );

@@ -11,7 +11,6 @@ export const ClockContext = createContext<ClockContextI>({
 export const ClockContextProvider: React.FC = ({ children }) => {
   const [rowCount] = useState(20);
   const times = generateTimes(true, rowCount);
-  console.log('🚀 ~ file: ClockContext.tsx ~ line 12 ~ times', times);
 
   return (
     <ClockContext.Provider value={{
