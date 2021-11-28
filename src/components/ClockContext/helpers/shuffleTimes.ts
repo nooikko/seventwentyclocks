@@ -30,7 +30,7 @@ const findClosestEmptyPosition = (array: ClockContextI['times'], current: ClockC
 
 // TODO: Build a better shuffling algorithm
 // The issue that the last items are not being shuffled since all the other positions have been filled
-export function shuffleTimes(array: ClockContextI['times'], rowCount: number): ClockContextI['times'] {
+export function shuffleTimes(array: ClockContextI['times'], rowCount: number, dimension: number): ClockContextI['times'] {
   const output: ClockContextI['times'] = [];
 
   for (let i = 0; i < array.length; i++) {
@@ -52,6 +52,8 @@ export function shuffleTimes(array: ClockContextI['times'], rowCount: number): C
       ...current,
       row: randomRow,
       column: randomColumn,
+      xPos: (randomRow * 1.25) * dimension,
+      yPos: (randomColumn * 1.18) * dimension,
     });
 
   }
