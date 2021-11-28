@@ -12,9 +12,9 @@ export const ClockCanvas = () => {
         <Clock
           key={`${hour}-${minute}`}
           hour={hour}
-            minute={minute}
-            xPos={row * dimension}
-            yPos={column * dimension}
+          minute={minute}
+          xPos={(row * 1.2) * dimension}
+          yPos={(column * 1.2) * dimension}
         />)}
       </Layer>
     </StyledStage>

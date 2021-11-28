@@ -1,6 +1,6 @@
 import { ClockContextI } from '../../../types';
 
-const findClosestEmptyPosition = (array: ClockContextI['times'], current: ClockContextI['times'][number], rowCount: number, maxColumns: number) => {
+const findClosestEmptyPosition = (array: ClockContextI['times'], current: ClockContextI['times'][number], rowCount: number) => {
   let checkRow = 0;
   let checkColumn = 0;
   let matching = true;
@@ -38,7 +38,7 @@ export function shuffleTimes(array: ClockContextI['times'], rowCount: number) {
     const matchingPosition = output.find(({ row, column }) => row === randomRow && column === randomColumn);
 
     if (matchingPosition !== undefined) {
-      const newPositions = findClosestEmptyPosition(output, current, rowCount, columnCount);
+      const newPositions = findClosestEmptyPosition(output, current, rowCount);
 
       randomRow = newPositions.row;
       randomColumn = newPositions.column;
