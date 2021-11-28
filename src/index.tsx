@@ -1,15 +1,16 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-import App from './App';
 import reportWebVitals from './reportWebVitals';
-import { ClockContextProvider } from './components';
+import { BrowserRouter } from 'react-router-dom';
+import { Router } from './components';
+
 
 ReactDOM.render(
   <React.StrictMode>
-    <ClockContextProvider>
-      <App />
-    </ClockContextProvider>
+    <BrowserRouter>
+      <Router />
+    </BrowserRouter>
   </React.StrictMode>,
   document.getElementById('root'),
 );
