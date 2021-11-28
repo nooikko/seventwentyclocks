@@ -31,7 +31,6 @@ export const StyledInternalLink = styled(Link)`
   font-size: 1.5rem;
   font-weight: 500;
   z-index: 20;
-  margin-right: 2rem;
 
   &:hover {
     color: #F1F2F3;
@@ -48,5 +47,11 @@ export const StyledLink = styled.a`
 
   &:hover {
     color: #F1F2F3;
+  }
+`;
+
+export const LinkContainer = styled.div`
+  a:not(:last-of-type) {
+    margin-right: 1rem;
   }
 `;
