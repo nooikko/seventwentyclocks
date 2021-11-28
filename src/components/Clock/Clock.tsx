@@ -1,22 +1,11 @@
 import React, { useContext } from 'react';
 import { Circle, Group } from 'react-konva';
 import { ClockContext, ClockHand } from '..';
+import { getRotation } from './helpers';
+import { ClockContextI } from '../../types';
 
-interface ClockProps {
-  hour: number;
-  minute: number;
-}
 
-const getRotation = (base: number, type: 'hour' | 'minute') => {
-  switch (type) {
-    case 'hour':
-      return ((360 / 12) * base) - 180;
-    case 'minute':
-      return ((360 / 60) * base) - 180;
-  }
-};
-
-export const Clock: React.FC<ClockProps> = ({ hour, minute }) => {
+export const Clock: React.FC<ClockContextI['times'][number]> = ({ hour, minute }) => {
   const { dimension } = useContext(ClockContext);
 
   const hourRotation = getRotation(hour, 'hour');
