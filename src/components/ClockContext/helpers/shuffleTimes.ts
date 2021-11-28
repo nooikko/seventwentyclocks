@@ -1,6 +1,6 @@
 import { ClockContextI } from '../../../types';
 
-const findClosestEmptyPosition = (array: ClockContextI['times'], current: ClockContextI['times'][number], rowCount: number) => {
+const findClosestEmptyPosition = (array: ClockContextI['times'], current: ClockContextI['times'][number], rowCount: number, columnMax: number) => {
   let checkRow = 0;
   let checkColumn = 0;
   let matching = true;
@@ -9,9 +9,11 @@ const findClosestEmptyPosition = (array: ClockContextI['times'], current: ClockC
     const matchingItem = array.find(({ row, column }) => row === checkRow && column === checkColumn); // eslint-disable-line
     matching = matchingItem !== undefined;
     if (matching) {
-      if (checkRow === rowCount) {
+      if (checkRow >= rowCount) {
         checkRow = 0;
-        checkColumn++;
+        if (checkColumn !== columnMax) {
+          checkColumn++;
+        }
       } else {
         checkRow++;
       }
@@ -26,7 +28,9 @@ const findClosestEmptyPosition = (array: ClockContextI['times'], current: ClockC
 };
 
 
-export function shuffleTimes(array: ClockContextI['times'], rowCount: number) {
+// TODO: Build a better shuffling algorithm
+// The issue that the last items are not being shuffled since all the other positions have been filled
+export function shuffleTimes(array: ClockContextI['times'], rowCount: number): ClockContextI['times'] {
   const output: ClockContextI['times'] = [];
 
   for (let i = 0; i < array.length; i++) {
@@ -38,7 +42,7 @@ export function shuffleTimes(array: ClockContextI['times'], rowCount: number) {
     const matchingPosition = output.find(({ row, column }) => row === randomRow && column === randomColumn);
 
     if (matchingPosition !== undefined) {
-      const newPositions = findClosestEmptyPosition(output, current, rowCount);
+      const newPositions = findClosestEmptyPosition(output, current, rowCount, columnCount);
 
       randomRow = newPositions.row;
       randomColumn = newPositions.column;

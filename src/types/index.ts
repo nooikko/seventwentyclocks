@@ -1,5 +1,3 @@
-import { DateTime } from 'luxon';
-
 export interface ClockContextI {
   dimension: number;
   times: {
@@ -9,5 +7,4 @@ export interface ClockContextI {
     column: number;
   }[];
   rowCount: number;
-  now: DateTime;
 }
