@@ -64,7 +64,7 @@ export const ClockContextProvider: React.FC = ({ children }) => {
 
   useEffect(() => {
     setMinScale(getMinScale(canvasSize.x, canvasSize.y, windowHeight, windowWidth, dimension));
-  }, [windowHeight, windowWidth, canvasSize.x, canvasSize.y]);
+  }, [windowHeight, windowWidth, canvasSize.x, canvasSize.y, dimension]);
 
   return (
     <ClockContext.Provider value={{
