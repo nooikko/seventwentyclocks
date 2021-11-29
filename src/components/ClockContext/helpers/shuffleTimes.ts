@@ -1,61 +1,47 @@
 import { ClockContextI } from '../../../types';
 
-const findClosestEmptyPosition = (array: ClockContextI['times'], current: ClockContextI['times'][number], rowCount: number, columnMax: number) => {
-  let checkRow = 0;
-  let checkColumn = 0;
-  let matching = true;
+function shuffle(array: ClockContextI['times']) {
+  let currentIndex = array.length,  randomIndex;
 
-  while (matching) {
-    const matchingItem = array.find(({ row, column }) => row === checkRow && column === checkColumn); // eslint-disable-line
-    matching = matchingItem !== undefined;
-    if (matching) {
-      if (checkRow >= rowCount) {
-        checkRow = 0;
-        if (checkColumn !== columnMax) {
-          checkColumn++;
-        }
-      } else {
-        checkRow++;
-      }
-    }
+  // While there remain elements to shuffle...
+  while (currentIndex !== 0) {
+
+    // Pick a remaining element...
+    randomIndex = Math.floor(Math.random() * currentIndex);
+    currentIndex--;
+
+    // And swap it with the current element.
+    [array[currentIndex], array[randomIndex]] = [
+      array[randomIndex], array[currentIndex]];
   }
 
+  return array;
+}
 
-  return {
-    row: checkRow,
-    column: checkColumn,
-  };
-};
-
-
-// TODO: Build a better shuffling algorithm
-// The issue that the last items are not being shuffled since all the other positions have been filled
 export function shuffleTimes(array: ClockContextI['times'], rowCount: number, dimension: number): ClockContextI['times'] {
-  const output: ClockContextI['times'] = [];
+  const shuffled = shuffle(array);
 
-  for (let i = 0; i < array.length; i++) {
-    const current = array[i];
-    const columnCount = array[array.length - 1]['column'];
-    let randomColumn = Math.floor(Math.random() * columnCount);
-    let randomRow = Math.floor(Math.random() * rowCount);
+  let row = 0;
+  let column = 0;
+  const output = [];
 
-    const matchingPosition = output.find(({ row, column }) => row === randomRow && column === randomColumn);
-
-    if (matchingPosition !== undefined) {
-      const newPositions = findClosestEmptyPosition(output, current, rowCount, columnCount);
-
-      randomRow = newPositions.row;
-      randomColumn = newPositions.column;
-    }
+  for (let i = 0; i < shuffled.length; i++) {
+    const current = shuffled[i];
 
     output.push({
       ...current,
-      row: randomRow,
-      column: randomColumn,
-      xPos: (randomRow * 1.25) * dimension,
-      yPos: (randomColumn * 1.18) * dimension,
+      row,
+      column,
+      xPos: (row * 1.25) * dimension,
+      yPos: (column * 1.18) * dimension,
     });
 
+    row++;
+
+    if (row > rowCount) {
+      row = 0;
+      column++;
+    }
   }
 
   return output;
